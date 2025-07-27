@@ -2,6 +2,9 @@ import React from 'react';
 import NavigationBar from '../Components/NavigationBar';
 import Headline from '../Components/Headline';
 import DailySummary from '../Components/DailySummary';
+import Morning from '../Components/Morning';
+import Noon from '../Components/Noon';
+import Night from '../Components/Night';
 
 const Home = () => {
     return (
@@ -9,6 +12,9 @@ const Home = () => {
        <NavigationBar></NavigationBar>
        <Headline></Headline>
        <DailySummary></DailySummary>
+       <Morning></Morning>
+       <Noon></Noon>
+       <Night></Night>
         </div>
     );
 };
