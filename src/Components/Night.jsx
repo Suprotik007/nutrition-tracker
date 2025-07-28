@@ -1,6 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AddFoodModal from '../Elements/AddFoodModal';
+
 
 const Night = () => {
+  const [isOpenModal,setIsOpenModal]=useState(false)
+
+  const handleOpenModal=()=>{
+    setIsOpenModal(true)
+  }
+    const handleCloseModal = () => {
+    setIsOpenModal(false);
+  };
+
+  const handleAddFoodSubmit = (foodData) => {
+  console.log('Food added:', foodData);
+ 
+};
+
     return (
         <div className='border-2 rounded-xl p-5'>
           <header className='flex justify-between'>
@@ -9,11 +25,14 @@ const Night = () => {
                 <p className='text-sm text-gray-400'>(6.00 - 11.59) PM</p>
              </div>
 
-            <button className='btn btn-outline btn-ghost text-gray-300'> + Add Food</button>
+            <button onClick={handleOpenModal} className='btn btn-outline  text-gray-300'> + Add Food</button>
           </header>
 
 {/* food list */}
          <p className='p-5 text-center text-gray-500'>No foods added yet. Click "Add Food" to get started.</p>
+
+{/* modal */}
+         {isOpenModal && <AddFoodModal onClose={handleCloseModal}  onSubmit={handleAddFoodSubmit} />}
         </div>
     );
 };
