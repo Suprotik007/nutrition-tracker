@@ -37,7 +37,7 @@ const AddFoodModal = ({ onClose, onSubmit }) => {
           </label>
 
           <label className="flex flex-col">
-            <span className="mb-1 font-medium">Amount</span>
+            <span className="mb-1 font-medium">Amount (gm)</span>
             <input
               type="number"
               value={amount}
@@ -45,7 +45,7 @@ const AddFoodModal = ({ onClose, onSubmit }) => {
               required
               min="1"
               className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 "
-              placeholder="Enter amount"
+              placeholder="Enter amount in grams"
             />
           </label>
 
