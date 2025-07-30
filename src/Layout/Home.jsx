@@ -5,6 +5,7 @@ import DailySummary from '../Components/DailySummary';
 import Morning from '../Components/Morning';
 import Noon from '../Components/Noon';
 import Night from '../Components/Night';
+import MidNight from '../Components/MidNight';
 
 const Home = () => {
     return (
@@ -15,6 +16,7 @@ const Home = () => {
        <Morning></Morning>
        <Noon></Noon>
        <Night></Night>
+       <MidNight></MidNight>
         </div>
     );
 };

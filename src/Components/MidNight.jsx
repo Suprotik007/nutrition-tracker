@@ -3,12 +3,12 @@ import FoodItems from '../Elements/FoodItems';
 import AddFoodButton from '../Elements/AddFoodbutton';
 import { isTimeBetween } from '../utilities/TimeFiltering';
 
-const Night = ({isActive}) => {
+const MidNight = ({isActive}) => {
   const [foodData, setFoodData] = useState([]);
 
   const nightFoods = foodData.filter(food => {
     if (!food.createdAt) return false;
-    return isTimeBetween(new Date(food.createdAt), 18, 0, 23, 59);
+    return isTimeBetween(new Date(food.createdAt), 0, 0, 5, 59);
 
   })
   useEffect(() => {
@@ -22,9 +22,10 @@ const Night = ({isActive}) => {
     <div className="border-2 rounded-xl p-5">
       <header className="flex justify-between">
         <div className="flex flex-row items-center gap-2">
-          <h2 className="font semibold text-xl text-pink-500 font-mono">Night</h2>
-          <p className="text-sm text-gray-400">(6.00 - 11.59) PM</p>
+          <h2 className="font semibold text-xl text-pink-500 font-mono">Midnight</h2>
+          <p className="text-sm text-gray-400">(12.00 - 5.59) AM</p>
         </div>
+       
        {isActive && (
             <span className="ml-4 px-2 py-1 text-xs font-semibold rounded bg-green-500 text-white">
               Active
@@ -41,4 +42,4 @@ const Night = ({isActive}) => {
   );
 };
 
-export default Night;
+export default MidNight;
