@@ -4,12 +4,9 @@ import AddFoodButton from '../Elements/AddFoodbutton';
 import { isTimeBetween } from '../utilities/TimeFiltering';
 
 const Morning = ({isActive}) => {
+  
+   
   const [foodData, setFoodData] = useState([]);
-
-const morningFoods = foodData.filter(food => {
-  if (!food.createdAt) return false;
-  return isTimeBetween(new Date(food.createdAt), 6, 0, 11, 59);
-})
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/addedFoods/addFood`)
@@ -17,8 +14,12 @@ const morningFoods = foodData.filter(food => {
       .then(setFoodData)
       .catch(console.error);
   }, []);
+const morningFoods = foodData.filter(food => {
+  if (!food.createdAt) return false;
+  return isTimeBetween(new Date(food.createdAt), 6, 0, 11, 59);
+})
 
-  ;
+
   return (
 
     

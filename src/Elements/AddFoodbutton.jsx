@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import AddFoodModal from './AddFoodModal';
 
-const AddFoodButton = ({ setFoodData }) => {
+const AddFoodButton = ({ disabled,setFoodData }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const handleOpenModal = () => {
-    setIsOpenModal(true);
+   if (!disabled)  setIsOpenModal(true);
   };
 
   const handleCloseModal = () => {
@@ -25,10 +25,7 @@ const AddFoodButton = ({ setFoodData }) => {
       }
 
       const savedFood = await response.json();
-
-      
       setFoodData(prevFoodData => [...prevFoodData, savedFood]);
-
       setIsOpenModal(false);
     } catch (error) {
       console.error('Error adding food:', error);
@@ -37,7 +34,7 @@ const AddFoodButton = ({ setFoodData }) => {
 
   return (
     <div>
-      <button onClick={handleOpenModal} className="btn btn-outline text-gray-300">
+      <button onClick={handleOpenModal}    disabled={disabled} className={`btn btn-outline text-green-600 ${disabled ? 'opacity-50 text-red-400 cursor-not-allowed' : ''}`}>
         + Add Food
       </button>
 

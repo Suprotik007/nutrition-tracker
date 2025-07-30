@@ -19,7 +19,7 @@ const MidNight = ({isActive}) => {
   }, []);
 
   return (
-    <div className="border-2 rounded-xl p-5">
+    <div className="border-2 rounded-xl p-5 ">
       <header className="flex justify-between">
         <div className="flex flex-row items-center gap-2">
           <h2 className="font semibold text-xl text-pink-500 font-mono">Midnight</h2>
@@ -27,12 +27,10 @@ const MidNight = ({isActive}) => {
         </div>
        
        {isActive && (
-            <span className="ml-4 px-2 py-1 text-xs font-semibold rounded bg-green-500 text-white">
-              Active
-            </span>
+          <AddFoodButton  disabled={!isActive}  setFoodData={setFoodData} />
           )}
           
-        <AddFoodButton disabled={!isActive}  setFoodData={setFoodData} />
+        
       </header>
   
      <div className='mt-5'>
