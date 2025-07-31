@@ -27,11 +27,7 @@ const Noon = ({isActive}) => {
           <p className="text-sm text-gray-400">(12.00 - 5.59) PM</p>
         </div>
 
-          {isActive && (
-            <span className="ml-4 px-2 py-1 text-xs font-semibold rounded bg-green-500 text-white">
-              Active
-            </span>
-          )}
+         
        
         <AddFoodButton disabled={!isActive}  setFoodData={setFoodData} />
       </header>

@@ -3,7 +3,7 @@ import React from 'react';
 const FoodItems = ({ foodData }) => {
   return (
     <div>
-      {foodData.length === 0 ? (
+      {foodData.length === 0 ?  (
         <p className="p-5 text-center text-gray-500">No foods added yet. Click "Add Food" to get started.</p>
       ) : (
         <div className="overflow-x-auto ">
@@ -21,13 +21,13 @@ const FoodItems = ({ foodData }) => {
                   <td>
                     <div className="flex items-center gap-3">
                       <div>
-                        <div className="font-bold md:text-lg">{food.foodName}</div>
+                        <div className="font-bold  md:text-lg">{food.foodName}</div>
                       </div>
                     </div>
                   </td>
                   <td className='md:text-lg'>{food.amount} GM</td>
                   <td>
-                    <button className="btn btn-outline btn-xs md;btn-md hover:text-black hover:bg-gray-200">
+                    <button className="btn btn-outline text-amber-600 btn-xs md;btn-md hover:text-black hover:bg-gray-200">
                       See Details
                     </button>
                   </td>

@@ -25,10 +25,14 @@ const MidNight = ({isActive}) => {
           <h2 className="font semibold text-xl text-pink-500 font-mono">Midnight</h2>
           <p className="text-sm text-gray-400">(12.00 - 5.59) AM</p>
         </div>
-       
-       {isActive && (
-          <AddFoodButton  disabled={!isActive}  setFoodData={setFoodData} />
+        {isActive && (
+            <span className="ml-4 px-2 py-1 text-xs font-semibold rounded bg-green-500 text-white">
+              Active
+            </span>
           )}
+    
+          <AddFoodButton  disabled={!isActive}  setFoodData={setFoodData} />
+       
           
         
       </header>

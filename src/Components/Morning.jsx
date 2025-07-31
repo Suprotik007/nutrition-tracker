@@ -30,11 +30,7 @@ const morningFoods = foodData.filter(food => {
           <h2 className="font semibold text-xl text-pink-500 font-mono">Morning</h2>
           <p className="text-sm text-gray-400">(6.00 - 11.59) AM</p>
 
-            {isActive && (
-            <span className="ml-4 px-2 py-1 text-xs font-semibold rounded bg-green-500 text-white">
-              Active
-            </span>
-          )}
+           
 
         </div>
        

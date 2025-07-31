@@ -8,7 +8,7 @@ const router = createBrowserRouter([
     Component: Home, 
     children: [
       {
-        path: "meals", 
+        path: "/", 
         Component: MealSections,
       },
     ],
