@@ -24,7 +24,7 @@ import Morning from './Morning';
   return (
     <div className='space-y-10'>
     
-      <Morning isActive={activeSection === 'morning'} />
+      <Morning  isActive={activeSection === 'morning'} />
       <Noon isActive={activeSection === 'noon'} />
       <Night isActive={activeSection === 'night'} />
       <MidNight isActive={activeSection === "midnight"}/>

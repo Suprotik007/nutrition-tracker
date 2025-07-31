@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FoodItems from '../Elements/FoodItems';
 import AddFoodButton from '../Elements/AddFoodbutton';
 import { isTimeBetween } from '../utilities/TimeFiltering';
+import FoodListWithDetails from '../Elements/FoodListWithDetails';
 
 const Noon = ({isActive}) => {
   const [foodData, setFoodData] = useState([]);
@@ -33,7 +34,7 @@ const Noon = ({isActive}) => {
       </header>
   
      <div className='mt-5'>
-       <FoodItems foodData={noonFoods} />
+       <FoodListWithDetails foodData={noonFoods} />
      </div>
     </div>
   );

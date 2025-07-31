@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FoodItems from '../Elements/FoodItems';
 import AddFoodButton from '../Elements/AddFoodbutton';
 import { isTimeBetween } from '../utilities/TimeFiltering';
+import FoodListWithDetails from '../Elements/FoodListWithDetails';
 
 const Morning = ({isActive}) => {
   
@@ -38,7 +39,7 @@ const morningFoods = foodData.filter(food => {
       </header>
   
      <div className='mt-5'>
-       <FoodItems foodData={morningFoods} />
+       <FoodListWithDetails foodData={morningFoods} />
      </div>
     </div>
   );

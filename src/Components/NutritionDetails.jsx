@@ -1,65 +1,67 @@
-import React, { useState } from 'react';
-import { fetchNutritionData } from '../utilities/NutritionAPI';
+import React, { useState, useEffect } from 'react';
+import { fetchNutritionData } from '../utilities/NutritionAPI'; 
 
-const NutritionDetails = () => {
-  const [inputText, setInputText] = useState('');
-  const [nutritionInfo, setNutritionInfo] = useState(null);
-  const [error, setError] = useState(null);
+const NutritionDetails = ({ food, onClose }) => {
+  const [nutrition, setNutrition] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleFetchNutrition = async () => {
+ 
+  const queryText = `${food.amount} grams of ${food.foodName}`;
+
+
+  useEffect(() => {
     setLoading(true);
     setError(null);
-    setNutritionInfo(null);
-
-    try {
-      const data = await fetchNutritionData(inputText);
-      if (data.length === 0) {
-        setError('No nutrition data found for this input.');
-      } else {
-        setNutritionInfo(data[0]); 
-      }
-    } catch (err) {
-      setError(err.message);
-    }
-
-    setLoading(false);
-  };
+    fetchNutritionData(queryText)
+      .then(data => {
+        if (data.length === 0) {
+          setError('No nutrition data found.');
+        } else {
+          setNutrition(data[0]);
+        }
+      })
+      .catch(err => {
+        setError('Failed to fetch nutrition data.');
+        console.error(err);
+      })
+      .finally(() => setLoading(false));
+  }, [queryText]);
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Enter food and amount (e.g. banana 120g)"
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        style={{ width: '300px', marginRight: '10px' }}
-      />
-      <button onClick={handleFetchNutrition} disabled={loading || !inputText.trim()}>
-        {loading ? 'Loading...' : 'See Details'}
-      </button>
+    <div className="fixed  w-10/12 mx-auto inset-1 flex items-center justify-center z-50">
+      <div className="bg-black text- text- border-1 border-blue-500 rounded-lg p-6 max-w-md w-full relative">
+        <button 
+          onClick={onClose} 
+          className="absolute top-2 text-2xl font-bold right-2 text-white"
+          aria-label="Close"
+        >
+          &times;
+        </button>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+        <h2 className="text-xl text-blue-400 font-medium mb-4">Nutrition Value : <span className=''>{food.foodName} ({food.amount}gm)</span></h2>
 
-      {nutritionInfo && (
-        <div style={{ marginTop: '20px' }}>
-          <h3>Nutrition Facts for {nutritionInfo.name}</h3>
-          <p>Serving size: {nutritionInfo.serving_size_g} grams</p>
-          <ul>
-            <li>Calories: {nutritionInfo.calories} kcal</li>
-            <li>Protein: {nutritionInfo.protein_g} g</li>
-             <li>Carbohydrates: {nutritionInfo.carbohydrates_total_g} g</li>
-            <li>Total Fat: {nutritionInfo.fat_total_g} g</li>
-            <li>Saturated Fat: {nutritionInfo.fat_saturated_g} g</li>
-        
-            <li>Fiber: {nutritionInfo.fiber_g} g</li>
-            <li>Sugar: {nutritionInfo.sugar_g} g</li>
-            <li>Sodium: {nutritionInfo.sodium_mg} mg</li>
-            <li>Potassium: {nutritionInfo.potassium_mg} mg</li>
-            <li>Cholesterol: {nutritionInfo.cholesterol_mg} mg</li>
-          </ul>
-        </div>
-      )}
+        {loading && <p>Loading...</p>}
+        {error && <p className="text-red-500">{error}</p>}
+
+        {nutrition && (
+          <div >
+          
+            <ul className="list-disc text-lg  ml-5 mt-2">
+              <li>Calories: {nutrition.calories} kcal</li>
+              <li>Protein: {nutrition.protein_g} g</li>
+               <li>Carbohydrates: {nutrition.carbohydrates_total_g} g</li>
+              <li>Total Fat: {nutrition.fat_total_g} g</li>
+              <li>Saturated Fat: {nutrition.fat_saturated_g} g</li>
+              <li>Fiber: {nutrition.fiber_g} g</li>
+              <li>Sugar: {nutrition.sugar_g} g</li>
+              <li>Sodium: {nutrition.sodium_mg} mg</li>
+              <li>Potassium: {nutrition.potassium_mg} mg</li>
+              <li>Cholesterol: {nutrition.cholesterol_mg} mg</li>
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

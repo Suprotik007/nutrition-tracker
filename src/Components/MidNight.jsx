@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FoodItems from '../Elements/FoodItems';
 import AddFoodButton from '../Elements/AddFoodbutton';
 import { isTimeBetween } from '../utilities/TimeFiltering';
+import FoodListWithDetails from '../Elements/FoodListWithDetails';
 
 const MidNight = ({isActive}) => {
   const [foodData, setFoodData] = useState([]);
@@ -25,20 +26,16 @@ const MidNight = ({isActive}) => {
           <h2 className="font semibold text-xl text-pink-500 font-mono">Midnight</h2>
           <p className="text-sm text-gray-400">(12.00 - 5.59) AM</p>
         </div>
-        {isActive && (
-            <span className="ml-4 px-2 py-1 text-xs font-semibold rounded bg-green-500 text-white">
-              Active
-            </span>
-          )}
+       
     
           <AddFoodButton  disabled={!isActive}  setFoodData={setFoodData} />
        
-          
+  
         
       </header>
   
      <div className='mt-5'>
-       <FoodItems foodData={nightFoods} />
+       <FoodListWithDetails foodData={nightFoods} />
      </div>
     </div>
   );
