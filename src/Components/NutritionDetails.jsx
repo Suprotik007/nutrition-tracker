@@ -23,7 +23,7 @@ const NutritionDetails = ({ food, onClose }) => {
         }
       })
       .catch(err => {
-        setError('Nutrition data for this item is unavailable.');
+        setError(`Nutrition data for ${food.foodName} is unavailable.`);
         console.error(err);
       })
       .finally(() => setLoading(false));
@@ -59,7 +59,7 @@ const NutritionDetails = ({ food, onClose }) => {
           <table className="w-full text-left font-semibold text-white text-sm mt-4 border border-blue-500 rounded">
   <tbody>
     <tr>
-      <td className="border-b border-blue-500  px-2">Serving Size</td>
+      <td className="border-b border-blue-500 px-2">Serving Size</td>
       <td className="border-b border-blue-500   px-2">{nutrition.serving_qty} g</td>
     </tr>
     <tr>

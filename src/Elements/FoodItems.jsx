@@ -39,7 +39,7 @@ const FoodItems = ({ foodData, onSeeDetails }) => {
   }
 }}
 
-                      className="btn btn-outline text-amber-600 btn-xs md:btn-md hover:text-black hover:bg-gray-200"
+                      className="btn btn-outline text-amber-300 btn-xs md:btn-md hover:text-black hover:bg-gray-200"
                     >
                       See Details
                     </button>

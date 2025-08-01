@@ -18,5 +18,6 @@ export const fetchNutritionData = async (query) => {
 
   const data = await res.json();
       return data.foods || [];
+      //  return [...data.common.map(item => item.food_name), ...data.branded.map(item => item.food_name)];
 
 };
