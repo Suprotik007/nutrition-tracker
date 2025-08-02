@@ -23,7 +23,7 @@ const NutritionDetails = ({ food, onClose }) => {
         }
       })
       .catch(err => {
-        setError(`Nutrition data for ${food.foodName} is unavailable.`);
+        setError(`Nutrition data for " ${food.foodName} " is unavailable.`);
         console.error(err);
       })
       .finally(() => setLoading(false));
@@ -52,7 +52,7 @@ const NutritionDetails = ({ food, onClose }) => {
   <img 
     src={nutrition.photo.highres} 
     alt={food.foodName} 
-    className="w-32  object-cover mx-auto mb-4 rounded-full  shadow-md"
+    className="w-32  object-cover mx-auto mb-4 rounded-2xl  shadow-md"
   />
 )}
 

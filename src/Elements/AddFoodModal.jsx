@@ -142,7 +142,7 @@ const [focused, setFocused] = useState(false);
   value={foodName}
   onChange={(e) => setFoodName(e.target.value)}
   onFocus={() => setFocused(true)}
-  onBlur={() => setTimeout(() => setFocused(false), 100)} // delay so click can register
+  onBlur={() => setTimeout(() => setFocused(false), 100)} 
   required
   className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2"
   placeholder="Enter food name"
