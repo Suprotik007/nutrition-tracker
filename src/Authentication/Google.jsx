@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router';
-
-import { AuthContext } from './AuthProvider';
+import { CgLogIn } from "react-icons/cg";
+import { AuthContext } from '../Authentication/AuthProvider';
 import { auth } from './Firebase';
 
 const Google = () => {
@@ -10,10 +10,12 @@ const Google = () => {
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
 
-  const handleGoogleReg = async () => {
+   const handleGoogleReg = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+      console.log(user);
+      
 
   const userInfo = {
   name: user.displayName,
@@ -40,10 +42,8 @@ const Google = () => {
 
   return (
     <div>
-      <button onClick={handleGoogleReg} className="btn bg-black text-white w-full max-w-sm">
-      Sign In with Google
-      </button>
-      <ToastContainer />
+     <button onClick={handleGoogleReg} className="btn btn-outline rounded-full btn-sm md:btn-lg  text-green-500  "><CgLogIn /> </button>
+     
     </div>
   );
 };

@@ -1,18 +1,27 @@
 import { createBrowserRouter } from "react-router";
 import Home from "./src/Layout/Home";
-import MealSections from "./src/Components/MealSections";
 import NutritionDetails from "./src/Components/NutritionDetails";
 import FoodListWithDetails from "./src/Elements/FoodListWithDetails";
+
+import MainLayout from "./src/Layout/MainLayout";
+import Google from "./src/Authentication/Google";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: Home, 
+    Component: MainLayout, 
+ 
     children: [
-      {
-        path: "/", 
-        Component: MealSections,
-      },
+      
+     {
+   index:true,
+     Component:Home
+     },
+     {
+      path:'/google',
+      Component:Google
+     }
+    
     ],
   },
   {
@@ -22,8 +31,9 @@ const router = createBrowserRouter([
   {
     path:'/mealDetails',
     Component:FoodListWithDetails
-  }
-  
+  },
+
+    
 
 ]);
 export default router

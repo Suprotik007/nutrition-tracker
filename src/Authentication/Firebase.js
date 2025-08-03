@@ -4,13 +4,14 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCqMTIdk0pmgUY-ll8MjmK2L64VDVr6Vfo",
-  authDomain: "nutrition-tracker-848ca.firebaseapp.com",
-  projectId: "nutrition-tracker-848ca",
-  storageBucket: "nutrition-tracker-848ca.firebasestorage.app",
-  messagingSenderId: "519704426700",
-  appId: "1:519704426700:web:00ca4c8cd5ccc5420a6a69"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
+
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
