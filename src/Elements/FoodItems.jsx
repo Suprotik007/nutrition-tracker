@@ -1,10 +1,25 @@
-import React from 'react';
-import { Link } from 'react-router';
 
-const FoodItems = ({ foodData, onSeeDetails }) => {
+
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../Authentication/AuthProvider';
+
+const FoodItems = ({ onSeeDetails }) => {
+  const { user } = useContext(AuthContext);
+  const [foodListData, setFoodListData] = useState([]);
+
+useEffect(() => {
+  if (!user?.email) return;
+
+  fetch(`${import.meta.env.VITE_API_URL}/addedFoods/addFood?email=${user.email}`)
+    .then(res => res.json())
+    .then(data => setFoodListData(data))
+    .catch(err => console.error(err));
+}, [user?.email]);
+
+
   return (
     <div>
-      {foodData.length === 0 ? (
+      {foodListData.length === 0 ? (
         <p className="p-5 text-center text-gray-500">
           No foods added yet. Click "Add Food" to get started.
         </p>
@@ -19,7 +34,7 @@ const FoodItems = ({ foodData, onSeeDetails }) => {
               </tr>
             </thead>
             <tbody>
-              {foodData.map(food => (
+              {foodListData.map(food => (
                 <tr key={food._id}>
                   <td>
                     <div className="flex items-center gap-3">
@@ -31,14 +46,7 @@ const FoodItems = ({ foodData, onSeeDetails }) => {
                   <td className="md:text-lg">{food.amount} GM</td>
                   <td>
                     <button
-                     onClick={() => {
-  if (onSeeDetails) {
-    onSeeDetails(food);
-  } else {
-    console.log("No onSeeDetails handler provided.");
-  }
-}}
-
+                      onClick={() => onSeeDetails?.(food)}
                       className="btn btn-outline text-amber-300 btn-xs md:btn-md hover:text-black hover:bg-gray-200"
                     >
                       See Details
@@ -54,5 +62,5 @@ const FoodItems = ({ foodData, onSeeDetails }) => {
   );
 };
 
-
 export default FoodItems;
+
