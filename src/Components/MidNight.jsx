@@ -1,23 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import FoodItems from '../Elements/FoodItems';
+import React, { useState, useEffect, useContext } from 'react';
 import AddFoodButton from '../Elements/AddFoodbutton';
 import { isTimeBetween } from '../utilities/TimeFiltering';
 import FoodListWithDetails from '../Elements/FoodListWithDetails';
+import { AuthContext } from '../Authentication/AuthProvider';
+import { getActiveSection } from '../utilities/ActiveSection';
 
 const MidNight = ({isActive}) => {
+    const { user } = useContext(AuthContext);
   const [foodData, setFoodData] = useState([]);
+ const section = getActiveSection();
 
   const nightFoods = foodData.filter(food => {
     if (!food.createdAt) return false;
     return isTimeBetween(new Date(food.createdAt), 0, 0, 5, 59);
 
   })
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/addedFoods/addFood`)
-      .then(res => res.json())
-      .then(setFoodData)
-      .catch(console.error);
-  }, []);
+ useEffect(() => {
+    if (user?.email && section) {
+      fetch(`${import.meta.env.VITE_API_URL}/addedFoods/addFood?email=${user.email}&section=${section}`)
+        .then(res => res.json())
+        .then(data => setFoodData(data))
+        .catch(console.error);
+    }
+  }, [user, section, isActive]);
 
   return (
     <div className="border-2 rounded-xl p-5 ">
@@ -28,7 +33,7 @@ const MidNight = ({isActive}) => {
         </div>
        
     
-          <AddFoodButton  disabled={!isActive}  setFoodData={setFoodData} />
+          <AddFoodButton  disabled={!isActive}  setFoodData={setFoodData}  activeSection={getActiveSection()}/>
        
   
         

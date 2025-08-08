@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import AddFoodModal from './AddFoodModal';
+import { getActiveSection } from '../utilities/ActiveSection';
+import { AuthContext } from '../Authentication/AuthProvider';
 
-const AddFoodButton = ({ disabled,setFoodData }) => {
+const AddFoodButton = ({ disabled,setFoodData,activeSection }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
-
+const {user}=useContext(AuthContext)
   const handleOpenModal = () => {
    if (!disabled)  setIsOpenModal(true);
   };
@@ -12,12 +14,17 @@ const AddFoodButton = ({ disabled,setFoodData }) => {
     setIsOpenModal(false);
   };
 
-  const handleAddFoodSubmit = async (newFood) => {
+  const handleAddFoodSubmit = async (newFood,) => {
     try {
+    
       const response = await fetch(`${import.meta.env.VITE_API_URL}/addedFoods/addFood`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newFood),
+        body: JSON.stringify({
+        ...newFood,
+        email: user.email,
+        section: activeSection  // pass section
+      }),
       });
 
       if (!response.ok) {
@@ -38,7 +45,8 @@ const AddFoodButton = ({ disabled,setFoodData }) => {
         + Add Food
       </button>
 
-      {isOpenModal && <AddFoodModal onClose={handleCloseModal} onSubmit={handleAddFoodSubmit} />}
+    {isOpenModal && <AddFoodModal onClose={handleCloseModal} onSubmit={(newFood) => handleAddFoodSubmit(newFood, getActiveSection())} />}
+
     </div>
   );
 };

@@ -49,9 +49,9 @@ const {user}=useContext(AuthContext)
   const handleSubmit = (e) => {
      e.preventDefault();
     const email=user.email
-    const date=new Date()
+ 
    
-    onSubmit({email,date ,foodName, amount });
+    onSubmit({email ,foodName, amount });
     setFoodName('');
     setAmount('');
     onClose();

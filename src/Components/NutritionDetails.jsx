@@ -15,7 +15,6 @@ const NutritionDetails = ({ food, onClose }) => {
     setError(null);
     fetchNutritionData(queryText)
       .then(data => {
-        console.log('Nutrition API response:', data);
         if (data.length === 0) {
           setError('No nutrition data found.');
         } else {

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import FoodItems from '../Elements/FoodItems';
 import AddFoodButton from '../Elements/AddFoodbutton';
 import { isTimeBetween } from '../utilities/TimeFiltering';
 import FoodListWithDetails from '../Elements/FoodListWithDetails';
+import { useContext } from 'react';
+import { AuthContext } from '../Authentication/AuthProvider';
+import { getActiveSection } from '../utilities/ActiveSection';
 
 const Noon = ({isActive}) => {
+   const { user } = useContext(AuthContext);
   const [foodData, setFoodData] = useState([]);
+ const section = getActiveSection();
 
   const noonFoods = foodData.filter(food => {
     if (!food.createdAt) return false;
@@ -13,13 +17,14 @@ const Noon = ({isActive}) => {
 
   })
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/addedFoods/addFood`)
-      .then(res => res.json())
-      .then(setFoodData)
-      .catch(console.error);
-  }, []);
-
+     useEffect(() => {
+        if (user?.email && section) {
+          fetch(`${import.meta.env.VITE_API_URL}/addedFoods/addFood?email=${user.email}&section=${section}`)
+            .then(res => res.json())
+            .then(data => setFoodData(data))
+            .catch(console.error);
+        }
+      }, [user, section, isActive]);
   return (
     <div className="border-2 rounded-xl p-5">
       <header className="flex justify-between">
@@ -30,7 +35,7 @@ const Noon = ({isActive}) => {
 
          
        
-        <AddFoodButton disabled={!isActive}  setFoodData={setFoodData} />
+        <AddFoodButton disabled={!isActive}  setFoodData={setFoodData} activeSection={getActiveSection()}/>
       </header>
   
      <div className='mt-5'>

@@ -1,25 +1,12 @@
 
 
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { AuthContext } from '../Authentication/AuthProvider';
 
-const FoodItems = ({ onSeeDetails }) => {
-  const { user } = useContext(AuthContext);
-  const [foodListData, setFoodListData] = useState([]);
-
-useEffect(() => {
-  if (!user?.email) return;
-
-  fetch(`${import.meta.env.VITE_API_URL}/addedFoods/addFood?email=${user.email}`)
-    .then(res => res.json())
-    .then(data => setFoodListData(data))
-    .catch(err => console.error(err));
-}, [user?.email]);
-
-
+const FoodItems = ({ foodData, onSeeDetails }) => {
   return (
     <div>
-      {foodListData.length === 0 ? (
+      {foodData.length === 0 ? (
         <p className="p-5 text-center text-gray-500">
           No foods added yet. Click "Add Food" to get started.
         </p>
@@ -27,20 +14,18 @@ useEffect(() => {
         <div className="overflow-x-auto">
           <table className="table">
             <thead className="border-b-2 border-gray-500">
-              <tr className="text-teal-500 ">
+              <tr className="text-teal-500">
                 <th>Food</th>
                 <th>Amount</th>
                 <th>Nutrition Value</th>
               </tr>
             </thead>
             <tbody>
-              {foodListData.map(food => (
+              {foodData.map(food => (
                 <tr key={food._id}>
                   <td>
                     <div className="flex items-center gap-3">
-                      <div>
-                        <div className="font-bold md:text-lg">{food.foodName}</div>
-                      </div>
+                      <div className="font-bold md:text-lg">{food.foodName}</div>
                     </div>
                   </td>
                   <td className="md:text-lg">{food.amount} GM</td>
@@ -61,6 +46,7 @@ useEffect(() => {
     </div>
   );
 };
+
 
 export default FoodItems;
 

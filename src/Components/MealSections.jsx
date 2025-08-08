@@ -12,7 +12,6 @@ import Morning from './Morning';
   useEffect(() => {
     const interval = setInterval(() => {
         const current = getActiveSection();
-      console.log('Active section:', current); 
       setActiveSection(current);
     }, 60000); 
 
