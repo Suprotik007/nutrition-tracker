@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AddFoodButton from '../Elements/AddFoodbutton';
 import { isTimeBetween } from '../utilities/TimeFiltering';
-import FoodListWithDetails from '../Elements/FoodListWithDetails'
+import FoodListWithDetails from '../Elements/FoodListWithDetails';
 import { AuthContext } from '../Authentication/AuthProvider';
 import { getActiveSection } from '../utilities/ActiveSection';
 
-const Night = ({isActive}) => {
-  
-    const { user } = useContext(AuthContext);
+const Night = ({ isActive }) => {
+  const { user } = useContext(AuthContext);
   const [foodData, setFoodData] = useState([]);
   const section = getActiveSection();
-  
+
+
   const nightFoods = foodData.filter(food => {
     if (!food.createdAt) return false;
     return isTimeBetween(new Date(food.createdAt), 18, 0, 23, 59);
-
-  })
+  });
 
   useEffect(() => {
     if (user?.email && section) {
@@ -26,24 +25,46 @@ const Night = ({isActive}) => {
     }
   }, [user, section, isActive]);
 
-
   return (
-    <div className="border-2 rounded-xl p-5">
-      <header className="flex justify-between">
-        <div className="flex flex-row items-center gap-2">
-          <h2 className="font semibold text-xl text-pink-500 font-mono">Night</h2>
-          <p className="text-sm text-gray-400">(6.00 - 11.59) PM</p>
+    <div
+      className={`relative rounded-2xl p-5 border 
+        ${isActive ? 'border-gray-700 shadow-lg bg-blue-50/10' : 'border-zinc-700 bg-zinc-900'}
+        transition-all duration-300`}
+    >
+      {/* Header */}
+      <header className="flex  md:flex-row justify-between items-start md:items-center">
+        <div className="flex flex-col md:flex-row md:items-center gap-2">
+          <h2 className="font-mono font-semibold text-xl md:text-2xl text-blue-400">
+            Night
+          </h2>
+          <p className="text-gray-400 text-sm md:text-base">(6:00 - 11:59 PM)</p>
         </div>
-      
-          
-        <AddFoodButton disabled={!isActive} activeSection={getActiveSection()}  setFoodData={setFoodData} />
-      </header>
-  
-     <div className='mt-5'>
-   
-       <FoodListWithDetails foodData={nightFoods} />
 
-     </div>
+        <AddFoodButton
+          disabled={!isActive}
+          setFoodData={setFoodData}
+          activeSection={getActiveSection()}
+          className="mt-3 md:mt-0"
+        />
+      </header>
+
+      {/* Food list */}
+      <div className="mt-5">
+        {nightFoods.length === 0 ? (
+          <p className="text-gray-400 text-center py-6">
+            No foods added yet for this meal.
+          </p>
+        ) : (
+          <FoodListWithDetails foodData={nightFoods} />
+        )}
+      </div>
+
+      {/* Active badge */}
+      {isActive && (
+        <span className="absolute top-5 right-40 md:right-90 bg-blue-400 text-zinc-900 text-xs font-medium px-2 py-1 rounded-full">
+          Active
+        </span>
+      )}
     </div>
   );
 };

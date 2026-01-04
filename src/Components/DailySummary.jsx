@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../Authentication/AuthProvider';
 
-
 const DailySummary = () => {
-
   const { user } = useContext(AuthContext);
   const [summary, setSummary] = useState({
     totalCalories: 0,
@@ -27,36 +25,34 @@ const DailySummary = () => {
         .catch(err => console.error("Failed to fetch summary", err));
     }
   }, [user]);
-   const formatNumber = (num) => Number(num).toFixed(2);
+
+  const formatNumber = (num) => Number(num).toFixed(2);
+
+  const nutrients = [
+    { label: 'Calories', value: formatNumber(summary.totalCalories), color: 'yellow-400' },
+    { label: 'Protein', value: formatNumber(summary.totalProtein) + 'g', color: 'green-400' },
+    { label: 'Carbs', value: formatNumber(summary.totalCarbs) + 'g', color: 'red-500' },
+    { label: 'Fats', value: formatNumber(summary.totalFat) + 'g', color: 'blue-500' },
+  ];
 
   return (
-    <div className='border-2 rounded-xl p-5'>
-      <h2 className='font-semibold text-xl text-pink-500 font-mono'>Daily Summary</h2>
+    <div className='p-5 rounded-2xl bg-zinc-900 border border-zinc-700 shadow-lg max-w-4xl mx-auto'>
+      <h2 className='font-mono text-2xl md:text-3xl lg:text-4xl font-bold text-pink-500 text-center mb-6'>
+        Daily Summary
+      </h2>
 
-      <section className='grid grid-cols-2 md:grid-cols-4'>
-        {/* Calories */}
-        <div className='flex flex-col items-center mt-5'>
-          <p className='text-3xl font-bold text-yellow-400'>{formatNumber(summary.totalCalories)}</p>
-          <p className='text-gray-400'>Calories</p>
-        </div>
-
-        {/* Protein */}
-        <div className='flex flex-col items-center mt-5'>
-          <p className='text-3xl font-bold text-green-400'>{formatNumber(summary.totalProtein)}g</p>
-          <p className='text-gray-400'>Protein</p>
-        </div>
-
-        {/* Carbs */}
-        <div className='flex flex-col items-center mt-5'>
-          <p className='text-3xl font-bold text-red-500'>{formatNumber(summary.totalCarbs)}g</p>
-          <p className='text-gray-400'>Carbs</p>
-        </div>
-
-        {/* Fats */}
-        <div className='flex flex-col items-center mt-5'>
-          <p className='text-3xl font-bold text-blue-500'>{formatNumber(summary.totalFat)}g</p>
-          <p className='text-gray-400'>Fats</p>
-        </div>
+      <section className='grid grid-cols-2 md:grid-cols-4 gap-4'>
+        {nutrients.map((nutrient, idx) => (
+          <div
+            key={idx}
+            className={`flex flex-col items-center p-4 rounded-xl bg-zinc-800 border border-zinc-700 hover:scale-105 transition-transform shadow-md`}
+          >
+            <p className={`font-bold text-2xl md:text-3xl lg:text-4xl text-${nutrient.color}`}>
+              {nutrient.value}
+            </p>
+            <p className='text-gray-400 text-sm md:text-base mt-1'>{nutrient.label}</p>
+          </div>
+        ))}
       </section>
     </div>
   );

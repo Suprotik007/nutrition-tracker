@@ -26,7 +26,7 @@ const AddFoodModal = ({ onClose, onSubmit }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
-      <div className="relative w-full max-w-sm rounded-2xl bg-zinc-900 border border-zinc-700 p-6 shadow-xl">
+      <div className="relative w-full max-w-10/11 rounded-2xl bg-zinc-900 border border-zinc-700 p-6 shadow-xl">
 
         {/* Close */}
         <button

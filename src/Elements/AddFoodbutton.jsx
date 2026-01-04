@@ -1,38 +1,33 @@
 import React, { useContext, useState } from 'react';
 import AddFoodModal from './AddFoodModal';
-import { getActiveSection } from '../utilities/ActiveSection';
 import { AuthContext } from '../Authentication/AuthProvider';
 
-const AddFoodButton = ({ disabled,setFoodData,activeSection }) => {
+const AddFoodButton = ({ disabled, setFoodData, activeSection }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
-const {user}=useContext(AuthContext)
+  const { user } = useContext(AuthContext);
+
   const handleOpenModal = () => {
-   if (!disabled)  setIsOpenModal(true);
+    if (!disabled) setIsOpenModal(true);
   };
 
-  const handleCloseModal = () => {
-    setIsOpenModal(false);
-  };
+  const handleCloseModal = () => setIsOpenModal(false);
 
-  const handleAddFoodSubmit = async (newFood,) => {
+  const handleAddFoodSubmit = async (newFood) => {
     try {
-    
       const response = await fetch(`${import.meta.env.VITE_API_URL}/addedFoods/addFood`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-        ...newFood,
-        email: user.email,
-        section: activeSection  // pass section
-      }),
+          ...newFood,
+          email: user.email,
+          section: activeSection,
+        }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to add food');
-      }
+      if (!response.ok) throw new Error('Failed to add food');
 
       const savedFood = await response.json();
-      setFoodData(prevFoodData => [...prevFoodData, savedFood]);
+      setFoodData(prev => [...prev, savedFood]);
       setIsOpenModal(false);
     } catch (error) {
       console.error('Error adding food:', error);
@@ -41,12 +36,26 @@ const {user}=useContext(AuthContext)
 
   return (
     <div>
-      <button onClick={handleOpenModal}    disabled={disabled} className={`btn btn-outline text-green-600 ${disabled ? 'opacity-50 text-red-400 cursor-not-allowed' : ''}`}>
+      <button
+        onClick={handleOpenModal}
+        disabled={disabled}
+        className={`
+          px-3 py-1 border-white border rounded-4xl font-semibold text-white
+          transition-transform duration-200 ease-in-out
+          ${disabled 
+            ? 'bg-gray-500 cursor-not-allowed opacity-60' 
+            : 'bg-gradient-to-r from-green-00 to-green-900 hover:scale-105 shadow-lg'}
+        `}
+      >
         + Add Food
       </button>
 
-    {isOpenModal && <AddFoodModal onClose={handleCloseModal} onSubmit={(newFood) => handleAddFoodSubmit(newFood, getActiveSection())} />}
-
+      {isOpenModal && (
+        <AddFoodModal 
+          onClose={handleCloseModal} 
+          onSubmit={(newFood) => handleAddFoodSubmit(newFood)} 
+        />
+      )}
     </div>
   );
 };

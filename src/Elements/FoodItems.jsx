@@ -1,52 +1,48 @@
-
-
 import React from 'react';
-import { AuthContext } from '../Authentication/AuthProvider';
 
 const FoodItems = ({ foodData, onSeeDetails }) => {
   return (
-    <div>
+    <div className="w-full overflow-x-auto">
       {foodData.length === 0 ? (
-        <p className="p-5 text-center text-gray-500">
+        <p className="p-6 text-center text-gray-400 italic">
           No foods added yet. Click "Add Food" to get started.
         </p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table">
-            <thead className="border-b-2 border-gray-500">
-              <tr className="text-teal-500">
-                <th>Food</th>
-                <th>Amount</th>
-                <th>Nutrition Value</th>
+        <table className="min-w-full border-collapse shadow-lg rounded-xl overflow-hidden">
+          <thead className="text-teal-600">
+            <tr>
+              <th className="py-3 px-4 text-left text-md md:text-base">Food</th>
+              <th className="py-3 px-4 text-left text-md md:text-base">Amount</th>
+              <th className="py-3 px-4 text-left text-md md:text-base">Nutrition</th>
+            </tr>
+          </thead>
+          <tbody>
+            {foodData.map((food, index) => (
+              <tr
+                key={food._id}
+                className={`transition-colors duration-200 ${
+                  index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-900/20'
+                } hover:bg-gray-700/50`}
+              >
+                <td className="py-3 px-4 flex items-center gap-3 font-semibold text-gray-300 md:text-lg">
+                  {food.foodName}
+                </td>
+                <td className="py-3 px-4 text-gray-300 md:text-lg">{food.amount} g</td>
+                <td className="py-3 px-4">
+                  <button
+                    onClick={() => onSeeDetails?.(food)}
+                    className="px-3 py-1 rounded-lg border border-amber-600 text-amber-600 text-xs md:text-sm font-medium hover:text-white hover:bg-amber-600 transition"
+                  >
+                   Details
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {foodData.map(food => (
-                <tr key={food._id}>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div className="font-bold md:text-lg">{food.foodName}</div>
-                    </div>
-                  </td>
-                  <td className="md:text-lg">{food.amount} GM</td>
-                  <td>
-                    <button
-                      onClick={() => onSeeDetails?.(food)}
-                      className="btn btn-outline text-amber-300 btn-xs md:btn-md hover:text-black hover:bg-gray-200"
-                    >
-                      See Details
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );
 };
 
-
 export default FoodItems;
-
