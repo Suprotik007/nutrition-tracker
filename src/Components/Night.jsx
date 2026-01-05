@@ -10,7 +10,7 @@ const Night = ({ isActive }) => {
   const [foodData, setFoodData] = useState([]);
   const section = getActiveSection();
 
-
+ 
   const nightFoods = foodData.filter(food => {
     if (!food.createdAt) return false;
     return isTimeBetween(new Date(food.createdAt), 18, 0, 23, 59);
@@ -40,6 +40,13 @@ const Night = ({ isActive }) => {
           <p className="text-gray-400 text-sm md:text-base">(6:00 - 11:59 PM)</p>
         </div>
 
+{/* Active badge */}
+      {isActive && (
+      <span className="bg-blue-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
+        Active
+      </span>
+    )}
+
         <AddFoodButton
           disabled={!isActive}
           setFoodData={setFoodData}
@@ -55,16 +62,16 @@ const Night = ({ isActive }) => {
             No foods added yet for this meal.
           </p>
         ) : (
-          <FoodListWithDetails foodData={nightFoods} />
+      <FoodListWithDetails
+  foodData={nightFoods}
+  setFoodData={setFoodData}
+/>
+
+
         )}
       </div>
 
-      {/* Active badge */}
-      {isActive && (
-      <span className="bg-blue-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
-        Active
-      </span>
-    )}
+      
     </div>
   );
 };

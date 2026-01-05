@@ -4,13 +4,16 @@ import NutritionDetails from '../Components/NutritionDetails';
 
 
 const FoodListWithDetails = ({ foodData }) => {
-  const [selectedFood, setSelectedFood] = useState(null); 
+  const [selectedFood, setSelectedFood, handleDeleteFood] = useState(null); 
 
+
+  
   return (
     <>
       <FoodItems 
         foodData={foodData} 
         onSeeDetails={food => setSelectedFood(food)} 
+         onDelete={handleDeleteFood}
       />
 
       {selectedFood && (
