@@ -38,15 +38,33 @@ const Morning = ({ isActive }) => {
             Morning
           </h2>
           <p className="text-gray-400 text-sm md:text-base">(6:00 - 11:59 AM)</p>
-        </div>
 
-        <AddFoodButton
+        </div> 
+
+  
+        {/* Active badge */}
+       {isActive && (
+      <span className="bg-yellow-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
+        Active
+      </span>
+    )}
+
+     <div>
+         <AddFoodButton
           disabled={!isActive}
           setFoodData={setFoodData}
           activeSection={getActiveSection()}
           className="mt-3 md:mt-0"
         />
+
+     </div>
+
+
+
+      
+
       </header>
+
 
       {/* Food list */}
       <div className="mt-5">
@@ -59,12 +77,7 @@ const Morning = ({ isActive }) => {
         )}
       </div>
 
-      {/* Active badge */}
-      {isActive && (
-        <span className="absolute top-3 right-3 bg-yellow-400 text-zinc-900 text-xs font-medium px-2 py-1 rounded-full">
-          Active
-        </span>
-      )}
+      
     </div>
   );
 };

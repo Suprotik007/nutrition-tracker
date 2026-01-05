@@ -61,10 +61,10 @@ const MidNight = ({ isActive }) => {
 
       {/* Active badge */}
       {isActive && (
-        <span className="absolute top-3 bg-violet-400 text-zinc-900 text-xs font-medium px-2 py-1 rounded-full">
-          Active
-        </span>
-      )}
+      <span className="bg-violet-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
+        Active
+      </span>
+    )}
     </div>
   );
 };

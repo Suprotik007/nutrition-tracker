@@ -31,13 +31,13 @@ const DailySummary = () => {
   const nutrients = [
     { label: 'Calories', value: formatNumber(summary.totalCalories), color: 'yellow-400' },
     { label: 'Protein', value: formatNumber(summary.totalProtein) + 'g', color: 'green-400' },
-    { label: 'Carbs', value: formatNumber(summary.totalCarbs) + 'g', color: 'red-500' },
-    { label: 'Fats', value: formatNumber(summary.totalFat) + 'g', color: 'blue-500' },
+    { label: 'Carbs', value: formatNumber(summary.totalCarbs) + 'g', color: 'red-400' },
+    { label: 'Fats', value: formatNumber(summary.totalFat) + 'g', color: 'blue-400' },
   ];
 
   return (
     <div className='p-5 rounded-2xl bg-zinc-900 border border-zinc-700 shadow-lg max-w-4xl mx-auto'>
-      <h2 className='font-mono text-2xl md:text-3xl lg:text-4xl font-bold text-pink-500 text-center mb-6'>
+      <h2 className='font-mono text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent  text-center mb-6'>
         Daily Summary
       </h2>
 

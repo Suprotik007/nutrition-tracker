@@ -61,10 +61,10 @@ const Night = ({ isActive }) => {
 
       {/* Active badge */}
       {isActive && (
-        <span className="absolute top-5 right-40 md:right-90 bg-blue-400 text-zinc-900 text-xs font-medium px-2 py-1 rounded-full">
-          Active
-        </span>
-      )}
+      <span className="bg-blue-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
+        Active
+      </span>
+    )}
     </div>
   );
 };

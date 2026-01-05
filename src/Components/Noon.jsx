@@ -31,22 +31,33 @@ const Noon = ({ isActive }) => {
         ${isActive ? 'border-orange-400 shadow-lg bg-orange-50/10' : 'border-zinc-700 bg-zinc-900'}
         transition-all duration-300`}
     >
-      {/* Header */}
-      <header className="flex  md:flex-row justify-between items-start md:items-center">
-        <div className="flex flex-col md:flex-row md:items-center gap-2">
-          <h2 className="font-mono font-semibold text-xl md:text-2xl text-orange-400">
-            Noon
-          </h2>
-          <p className="text-gray-400 text-sm md:text-base">(12:00 - 5:59 PM)</p>
-        </div>
+     <header className="flex  justify-between gap-3">
+  
+  <div className="flex items-center gap-3">
+    <div>
+      <h2 className="font-mono font-semibold text-xl md:text-2xl text-orange-400">
+        Noon
+      </h2>
+      <p className="text-gray-400 text-sm md:text-base">
+        (12:00 - 5:59 PM)
+      </p>
+    </div>
 
-        <AddFoodButton
-          disabled={!isActive}
-          setFoodData={setFoodData}
-          activeSection={getActiveSection()}
-          className="mt-3 md:mt-0"
-        />
-      </header>
+    {isActive && (
+      <span className="bg-orange-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
+        Active
+      </span>
+    )}
+  </div>
+
+  {/*  Add button */}
+  <AddFoodButton
+    disabled={!isActive}
+    setFoodData={setFoodData}
+    activeSection={getActiveSection()}
+  />
+</header>
+
 
       {/* Food list */}
       <div className="mt-5">
@@ -59,12 +70,7 @@ const Noon = ({ isActive }) => {
         )}
       </div>
 
-      {/* Active badge */}
-      {isActive && (
-        <span className="absolute top-3 right-3 bg-orange-400 text-zinc-900 text-xs font-medium px-2 py-1 rounded-full">
-          Active
-        </span>
-      )}
+    
     </div>
   );
 };
