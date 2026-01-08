@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import AddFoodModal from './AddFoodModal';
 import { AuthContext } from '../Authentication/AuthProvider';
 
-const AddFoodButton = ({ disabled, setFoodData, activeSection }) => {
+const AddFoodButton = ({ disabled, setFoodData, activeSection, incrementRefreshKey }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const { user } = useContext(AuthContext);
 
@@ -28,6 +28,7 @@ const AddFoodButton = ({ disabled, setFoodData, activeSection }) => {
 
       const savedFood = await response.json();
       setFoodData(prev => [...prev, savedFood]);
+      incrementRefreshKey();
       setIsOpenModal(false);
     } catch (error) {
       console.error('Error adding food:', error);

@@ -6,7 +6,7 @@ import Night from './Night'
 import MidNight from './MidNight'
 import Morning from './Morning';
 
- const MealSections = () => {
+ const MealSections = ({ incrementRefreshKey }) => {
   const [activeSection, setActiveSection] = useState(getActiveSection());
 
   useEffect(() => {
@@ -22,11 +22,11 @@ import Morning from './Morning';
 
   return (
     <div className='space-y-10'>
-    
-      <Morning  isActive={activeSection === 'morning'} />
-      <Noon isActive={activeSection === 'noon'} />
-      <Night isActive={activeSection === 'night'} />
-      <MidNight isActive={activeSection === "midnight"}/>
+
+      <Morning  isActive={activeSection === 'morning'} incrementRefreshKey={incrementRefreshKey} />
+      <Noon isActive={activeSection === 'noon'} incrementRefreshKey={incrementRefreshKey} />
+      <Night isActive={activeSection === 'night'} incrementRefreshKey={incrementRefreshKey} />
+      <MidNight isActive={activeSection === "midnight"} incrementRefreshKey={incrementRefreshKey}/>
     </div>
   );
 };

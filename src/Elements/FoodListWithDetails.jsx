@@ -3,17 +3,17 @@ import FoodItems from '../Elements/FoodItems';
 import NutritionDetails from '../Components/NutritionDetails';
 
 
-const FoodListWithDetails = ({ foodData }) => {
-  const [selectedFood, setSelectedFood, handleDeleteFood] = useState(null); 
+const FoodListWithDetails = ({ foodData, setFoodData, incrementRefreshKey }) => {
+  const [selectedFood, setSelectedFood] = useState(null);
 
 
-  
   return (
     <>
-      <FoodItems 
-        foodData={foodData} 
-        onSeeDetails={food => setSelectedFood(food)} 
-         onDelete={handleDeleteFood}
+      <FoodItems
+        foodData={foodData}
+        setFoodData={setFoodData}
+        onSeeDetails={food => setSelectedFood(food)}
+        incrementRefreshKey={incrementRefreshKey}
       />
 
       {selectedFood && (

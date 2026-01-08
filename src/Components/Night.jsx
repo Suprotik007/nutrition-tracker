@@ -5,12 +5,14 @@ import FoodListWithDetails from '../Elements/FoodListWithDetails';
 import { AuthContext } from '../Authentication/AuthProvider';
 import { getActiveSection } from '../utilities/ActiveSection';
 
-const Night = ({ isActive }) => {
+
+
+const Night = ({ isActive, incrementRefreshKey }) => {
   const { user } = useContext(AuthContext);
   const [foodData, setFoodData] = useState([]);
   const section = getActiveSection();
 
- 
+  
   const nightFoods = foodData.filter(food => {
     if (!food.createdAt) return false;
     return isTimeBetween(new Date(food.createdAt), 18, 0, 23, 59);
@@ -51,6 +53,7 @@ const Night = ({ isActive }) => {
           disabled={!isActive}
           setFoodData={setFoodData}
           activeSection={getActiveSection()}
+          incrementRefreshKey={incrementRefreshKey}
           className="mt-3 md:mt-0"
         />
       </header>
@@ -62,12 +65,7 @@ const Night = ({ isActive }) => {
             No foods added yet for this meal.
           </p>
         ) : (
-      <FoodListWithDetails
-  foodData={nightFoods}
-  setFoodData={setFoodData}
-/>
-
-
+          <FoodListWithDetails foodData={nightFoods} setFoodData={setFoodData} incrementRefreshKey={incrementRefreshKey} />
         )}
       </div>
 
@@ -77,3 +75,5 @@ const Night = ({ isActive }) => {
 };
 
 export default Night;
+
+

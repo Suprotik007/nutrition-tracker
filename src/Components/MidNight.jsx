@@ -5,7 +5,7 @@ import FoodListWithDetails from '../Elements/FoodListWithDetails';
 import { AuthContext } from '../Authentication/AuthProvider';
 import { getActiveSection } from '../utilities/ActiveSection';
 
-const MidNight = ({ isActive }) => {
+const MidNight = ({ isActive, incrementRefreshKey }) => {
   const { user } = useContext(AuthContext);
   const [foodData, setFoodData] = useState([]);
   const section = getActiveSection();
@@ -40,9 +40,17 @@ const MidNight = ({ isActive }) => {
           <p className="text-gray-400 text-sm md:text-base">(12:00 - 5:59 AM)</p>
         </div>
 
+         {/* Active badge */}
+      {isActive && (
+      <span className="bg-violet-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
+        Active
+      </span>
+    )}
+
         <AddFoodButton
           disabled={!isActive}
           setFoodData={setFoodData}
+          incrementRefreshKey={incrementRefreshKey}
           activeSection={getActiveSection()}
           className="mt-3 md:mt-0"
         />
@@ -55,16 +63,11 @@ const MidNight = ({ isActive }) => {
             No foods added yet for this meal.
           </p>
         ) : (
-          <FoodListWithDetails foodData={midnightFoods} />
+          <FoodListWithDetails foodData={midnightFoods} setFoodData={setFoodData} incrementRefreshKey={incrementRefreshKey} />
         )}
       </div>
 
-      {/* Active badge */}
-      {isActive && (
-      <span className="bg-violet-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
-        Active
-      </span>
-    )}
+     
     </div>
   );
 };

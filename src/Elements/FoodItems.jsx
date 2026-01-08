@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+
+
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import Swal from 'sweetalert2';
 import { TiTick } from "react-icons/ti";
-const FoodItems = ({ foodData, onSeeDetails}) => {
 
+
+const FoodItems = ({ foodData, setFoodData, onSeeDetails, incrementRefreshKey}) => {
+ 
 
   const handleDelete = async (food) => {
   const result = await Swal.fire({
@@ -19,6 +23,12 @@ const FoodItems = ({ foodData, onSeeDetails}) => {
     confirmButtonColor: '#ef4444',
     cancelButtonColor: '#334155',
     reverseButtons: true,
+    
+     backdrop: `
+    rgba(0,0,7,0.5)
+    shadow-lg
+    backdrop-filter: blur(100px);
+  `,
   });
 
   if (!result.isConfirmed) return;
@@ -31,7 +41,8 @@ const FoodItems = ({ foodData, onSeeDetails}) => {
 
     if (!res.ok) throw new Error('Delete failed');
 
-    // setFoodData(prev => prev.filter(f => f._id !== food._id));
+    setFoodData(prev => prev.filter(f => f._id !== food._id));
+    incrementRefreshKey();
 
     toast.success(`${food.foodName} deleted`, {
       icon: <p className='text-green-500'><TiTick /></p> ,
@@ -87,6 +98,7 @@ const FoodItems = ({ foodData, onSeeDetails}) => {
                 <td className="py-3 px-4 text-center">
                   <button
                     onClick={() => handleDelete(food)}
+                   
                     className="p-2 rounded-lg border border-red-500 text-red-400 hover:bg-red-500 hover:text-white transition"
                   >
                     <RiDeleteBin2Fill />

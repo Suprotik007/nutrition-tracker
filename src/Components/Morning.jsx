@@ -5,7 +5,7 @@ import FoodListWithDetails from '../Elements/FoodListWithDetails';
 import { AuthContext } from '../Authentication/AuthProvider';
 import { getActiveSection } from '../utilities/ActiveSection';
 
-const Morning = ({ isActive }) => {
+const Morning = ({ isActive, incrementRefreshKey }) => {
   const { user } = useContext(AuthContext);
   const [foodData, setFoodData] = useState([]);
   const section = getActiveSection();
@@ -54,6 +54,7 @@ const Morning = ({ isActive }) => {
           disabled={!isActive}
           setFoodData={setFoodData}
           activeSection={getActiveSection()}
+          incrementRefreshKey={incrementRefreshKey}
           className="mt-3 md:mt-0"
         />
 
@@ -73,7 +74,7 @@ const Morning = ({ isActive }) => {
             No foods added yet for this meal.
           </p>
         ) : (
-          <FoodListWithDetails foodData={morningFoods} />
+          <FoodListWithDetails foodData={morningFoods} setFoodData={setFoodData} incrementRefreshKey={incrementRefreshKey} />
         )}
       </div>
 
