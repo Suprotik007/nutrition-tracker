@@ -32,7 +32,7 @@ const MidNight = ({ isActive, incrementRefreshKey }) => {
         transition-all duration-300`}
     >
       {/* Header */}
-      <header className="flex  md:flex-row justify-between items-start md:items-center">
+       <header className="flex  md:flex-row justify-between items-start md:items-center">
         <div className="flex flex-col md:flex-row md:items-center gap-2">
           <h2 className="font-mono font-semibold text-xl md:text-2xl text-violet-400">
             Midnight
