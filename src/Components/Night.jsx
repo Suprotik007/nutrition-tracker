@@ -29,7 +29,7 @@ const Night = ({ isActive, incrementRefreshKey }) => {
 
   return (
     <div
-      className={`relative rounded-2xl p-5 border 
+      className={`relative rounded-2xl p-5 border  
         ${isActive ? 'border-sky-400 shadow-lg bg-blue-50/10' : 'border-zinc-700 bg-zinc-900'}
         transition-all duration-300`}
     >
@@ -44,7 +44,7 @@ const Night = ({ isActive, incrementRefreshKey }) => {
 
 {/* Active badge */}
       {isActive && (
-      <span className="bg-blue-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
+      <span className="bg-blue-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-10/11 rounded-full animate-pulse">
         Active
       </span>
     )}

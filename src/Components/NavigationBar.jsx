@@ -27,9 +27,17 @@ const NavigationBar = () => {
               </svg>
             </label>
             <ul tabIndex={0} className="dropdown-content menu bg-black rounded-lg mt-2 shadow-lg w-40 p-2 text-white">
+
+
+               <li>
+                <Link to="/bmi-calculator" className="hover:text-yellow-400 text-yellow-400 transition">BMI Calculator</Link>
+              </li>
+
               <li>
                 <Link to="/dashboard" className="hover:text-yellow-400 text-yellow-400 transition">Dashboard</Link>
               </li>
+
+             
             </ul>
           </div>
 
@@ -41,9 +49,17 @@ const NavigationBar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex gap-6 items-center">
+          
+           <Link to="/bmi-calculator" className="text-yellow-400 font-medium hover:text-yellow-400 transition">
+            BMI Calculator
+          </Link>
+
           <Link to="/dashboard" className="text-yellow-400 font-medium hover:text-yellow-400 transition">
             Dashboard
           </Link>
+
+          
+
         </div>
 
         {/* User Actions */}
