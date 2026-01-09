@@ -31,10 +31,10 @@ const Noon = ({ isActive, incrementRefreshKey }) => {
         ${isActive ? 'border-orange-400 shadow-lg bg-orange-50/10' : 'border-zinc-700 bg-zinc-900'}
         transition-all duration-300`}
     >
-     <header className="flex  justify-between gap-3">
+     <header className="flex  md:flex-row justify-between items-start md:items-center">
   
-  <div className="flex items-center gap-3">
-    <div>
+  <div className="flex flex-col md:flex-row md:items-center gap-2">
+    <div className='flex flex-col md:flex-row md:items-center gap-2'>
       <h2 className="font-mono font-semibold text-xl md:text-2xl text-orange-400">
         Noon
       </h2>
@@ -63,7 +63,7 @@ const Noon = ({ isActive, incrementRefreshKey }) => {
       {/* Food list */}
       <div className="mt-5">
         {noonFoods.length === 0 ? (
-          <p className="text-gray-400 text-center py-6">
+          <p className="text-gray-400 italic text-center py-6">
             No foods added yet for this meal.
           </p>
         ) : (

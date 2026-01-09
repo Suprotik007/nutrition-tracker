@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import toast from 'react-hot-toast';
 
 
@@ -13,10 +13,11 @@ const FoodItems = ({ foodData, setFoodData, onSeeDetails, incrementRefreshKey}) 
   const handleDelete = async (food) => {
   const result = await Swal.fire({
     title: 'Delete this food?',
-    text: `${food.foodName} will be permanently removed.`,
+    text: `' ${food.foodName} ' will be permanently removed.`,
     icon: 'warning',
-    background: '#0f172a',
+    background: '#0f172a', 
     color: '#e5e7eb',
+  
     showCancelButton: true,
     confirmButtonText: 'Yes, delete',
     cancelButtonText: 'Cancel',
@@ -25,9 +26,9 @@ const FoodItems = ({ foodData, setFoodData, onSeeDetails, incrementRefreshKey}) 
     reverseButtons: true,
     
      backdrop: `
-    rgba(0,0,7,0.5)
+    rgba(0,0,9,0.5)
     shadow-lg
-    backdrop-filter: blur(100px);
+    backdrop-filter:blur(100px);
   `,
   });
 
@@ -61,8 +62,8 @@ const FoodItems = ({ foodData, setFoodData, onSeeDetails, incrementRefreshKey}) 
         </p>
       ) : (
         <table className="min-w-full border-collapse shadow-lg rounded-xl overflow-hidden">
-          <thead className="text-teal-500 bg-gray-900">
-            <tr>
+          <thead className="text-teal-500  bg-gray-900">
+            <tr className='text-sm md:text-base'>
               <th className="py-3 px-4 text-left">Food</th>
               <th className="py-3 px-4 text-left">Amount</th>
               <th className="py-3 px-4 text-left">Nutrition</th>
@@ -78,7 +79,7 @@ const FoodItems = ({ foodData, setFoodData, onSeeDetails, incrementRefreshKey}) 
                   index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-900/40'
                 } hover:bg-gray-700/60 transition`}
               >
-                <td className="py-3 px-4 text-gray-200 font-medium">
+                <td className="py-3 px-4 text-gray-200 text-sm md:text-base font-medium">
                   {food.foodName}
                 </td>
 

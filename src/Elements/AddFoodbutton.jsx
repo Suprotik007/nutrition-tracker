@@ -41,7 +41,7 @@ const AddFoodButton = ({ disabled, setFoodData, activeSection, incrementRefreshK
         onClick={handleOpenModal}
         disabled={disabled}
         className={`
-          px-2 py-1  border rounded-lg font-semibold text-green-500
+          px-2 py-1 text-xs border mx-3 md:mx-38 lg:mx-62 rounded-full text-green-500
           transition-transform duration-200 ease-in-out
           ${disabled 
             ? 'bg-gray-600 text-gray-200 cursor-not-allowed opacity-60' 

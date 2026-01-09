@@ -30,7 +30,7 @@ const Night = ({ isActive, incrementRefreshKey }) => {
   return (
     <div
       className={`relative rounded-2xl p-5 border 
-        ${isActive ? 'border-gray-700 shadow-lg bg-blue-50/10' : 'border-zinc-700 bg-zinc-900'}
+        ${isActive ? 'border-sky-400 shadow-lg bg-blue-50/10' : 'border-zinc-700 bg-zinc-900'}
         transition-all duration-300`}
     >
       {/* Header */}
@@ -61,7 +61,7 @@ const Night = ({ isActive, incrementRefreshKey }) => {
       {/* Food list */}
       <div className="mt-5">
         {nightFoods.length === 0 ? (
-          <p className="text-gray-400 text-center py-6">
+          <p className="text-gray-400 italic text-center py-6">
             No foods added yet for this meal.
           </p>
         ) : (

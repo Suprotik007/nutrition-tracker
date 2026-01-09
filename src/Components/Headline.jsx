@@ -1,6 +1,8 @@
 import React from 'react';
 import { ImClock } from "react-icons/im";
+import { FaCalendarAlt } from "react-icons/fa";
 import LiveClock from '../Elements/LiveClock';
+import LiveDate from '../Elements/Livedate';
 
 const Headline = () => {
   return (
@@ -10,11 +12,20 @@ const Headline = () => {
         Calculate Your Every Bite
       </h1>
 
-      {/* Clock  */}
-      <div className="flex items-center gap-3 bg-fuchsia- px-4 py-2 rounded-full shadow-md backdrop-blur-sm">
-        <ImClock className="text-yellow-600 text-lg sm:text-xl" />
-        <LiveClock className="text-cyan-400 font-mono text-lg sm:text-xl" />
+    <div className='flex flex-row'>
+
+        {/* Date */}
+     <div className="flex items-center gap-3 font-mono px-4 py-2 rounded-full shadow-md backdrop-blur-sm">
+        <FaCalendarAlt  className="text-yellow-600  text-lg sm:text-xl" />
+        <LiveDate className="text-cyan-400 text-lg sm:text-xl" />
       </div>
+
+      {/* Clock  */}
+      <div className="flex items-center gap-3 bg-fuchsia- font-mono  px-4 py-2 rounded-full shadow-md backdrop-blur-sm">
+        <ImClock className="text-yellow-600 text-lg sm:text-xl" />
+        <LiveClock className="text-cyan-400 text-lg sm:text-xl" />
+      </div>
+    </div>
     </div>
   );
 };

@@ -59,7 +59,7 @@ const MidNight = ({ isActive, incrementRefreshKey }) => {
       {/* Food list */}
       <div className="mt-5">
         {midnightFoods.length === 0 ? (
-          <p className="text-gray-400 text-center py-6">
+          <p className="text-gray-400 italic text-center py-6">
             No foods added yet for this meal.
           </p>
         ) : (
