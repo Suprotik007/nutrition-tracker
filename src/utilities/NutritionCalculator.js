@@ -34,3 +34,16 @@ export const calculateSuggestedIntake = ({
     fat,
   };
 };
+
+export const calculateDailySummary = (foodData) => {
+  return foodData.reduce(
+    (acc, food) => {
+      acc.totalCalories += food.calories || 0;
+      acc.totalProtein += food.protein || 0;
+      acc.totalCarbs += food.carbs || 0;
+      acc.totalFat += food.fat || 0;
+      return acc;
+    },
+    { totalCalories: 0, totalProtein: 0, totalCarbs: 0, totalFat: 0 }
+  );
+};

@@ -58,7 +58,7 @@ const NutritionComparison = ({ dailySummary, userProfile }) => {
         Nutrition Comparison based on your BMI 
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-2  gap-6">
         <div className="p-4 rounded-xl bg-zinc-800 border border-zinc-700">
           <p className="text-gray-400 mb-1">Calories</p>
           {renderResult('Calories', comparison.calories, 'kcal')}

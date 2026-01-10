@@ -76,4 +76,3 @@ const Night = ({ isActive, incrementRefreshKey }) => {
 
 export default Night;
 
-

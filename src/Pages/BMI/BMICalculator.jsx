@@ -1,29 +1,53 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Authentication/AuthProvider';
+import { FoodContext } from '../../Elements/FoodContext';
+import { calculateDailySummary } from '../../utilities/Nutritioncalculator';
 import NutritionComparison from '../../Components/NutritionComparison';
 
 const BMICalculator = () => {
   const { user } = useContext(AuthContext);
+  const { foodData } = useContext(FoodContext);
+
   const [result, setResult] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const onSubmit = (data) => {
-    const heightInMeters = Number(data.height) / 100;
+  
+  const dailySummary = useMemo(
+    () => calculateDailySummary(foodData),
+    [foodData]
+  );
+
+
+  useEffect(() => {
+    const savedResult = localStorage.getItem('bmiResult');
+    const savedProfile = localStorage.getItem('userProfile');
+
+    if (savedResult && savedProfile) {
+      setResult(JSON.parse(savedResult));
+      setProfile(JSON.parse(savedProfile));
+    }
+  }, []);
+
+
+  const onSubmit = async (data) => {
+    const height = Number(data.height);
     const weight = Number(data.weight);
 
-    if (!heightInMeters || !weight || heightInMeters <= 0 || weight <= 0) {
-      alert('Please enter valid height and weight values.');
-      return;
-    }
+    if (height <= 0 || weight <= 0) return;
 
-    const bmi = weight / (heightInMeters * heightInMeters);
-    const roundedBMI = bmi.toFixed(1);
+    const bmi = weight / ((height / 100) ** 2);
+    const roundedBMI = Number(bmi.toFixed(1));
 
-    let category = '';
-    let color = '';
-
+    let category, color;
     if (bmi < 18.5) {
       category = 'Underweight';
       color = 'text-blue-400';
@@ -38,140 +62,139 @@ const BMICalculator = () => {
       color = 'text-red-400';
     }
 
-    setResult({ bmi: roundedBMI, category, color });
-
-    
+    const bmiResult = { bmi: roundedBMI, category, color };
     const userProfile = {
-      weight: Number(data.weight),
-      height: Number(data.height),
+      weight,
+      height,
       age: Number(data.age),
       gender: data.gender,
     };
-    localStorage.setItem('userProfile', JSON.stringify(userProfile));
-  };
- 
-  return (
-    <div className="min-h-screen bg-black p-4 ">
-      <div className={`flex flex-col md:flex-row justify-center items-start ${
-    result ? 'gap-8' : ''
-  }`}
->
-        {/* BMI Calculator Form */}
-        <div className={`${result ? 'max-w-md' : 'max-w-md'} w-full border border-zinc-700 rounded-2xl shadow-xl p-6`}>
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-            BMI Calculator
-          </h2>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Email</label>
+    setResult(bmiResult);
+    setProfile(userProfile);
+
+    localStorage.setItem('bmiResult', JSON.stringify(bmiResult));
+    localStorage.setItem('userProfile', JSON.stringify(userProfile));
+
+    
+    try {
+      setLoading(true);
+      await fetch(`${import.meta.env.VITE_API_URL}/BMIrecord/bmi`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user?.email,
+          ...userProfile,
+          bmi: roundedBMI,
+          category,
+          recordedAt: new Date().toISOString(),
+        }),
+      });
+    } catch (err) {
+      console.error('BMI save failed', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const resetBMI = () => {
+    localStorage.removeItem('bmiResult');
+    localStorage.removeItem('userProfile');
+    setResult(null);
+    setProfile(null);
+    reset();
+  };
+
+  return (
+    <div className="min-h-screen bg-black p-4">
+      <div className={`flex flex-col md:flex-row justify-center items-start ${result ? 'gap-8' : ''}`}>
+
+       
+        {!result && (
+          <div className="max-w-md w-full border border-zinc-700 rounded-2xl p-6">
+            <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+              BMI Calculator
+            </h2>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <input
                 type="email"
                 value={user?.email || ''}
                 disabled
-                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-gray-400 cursor-not-allowed"
+                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-gray-400"
               />
-            </div>
 
-            {/* Gender */}
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Gender</label>
               <select
-                {...register('gender', { required: 'Gender is required' })}
-                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                {...register('gender', { required: true })}
+                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-gray-200"
               >
                 <option value="" disabled>Select gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
               </select>
-              {errors.gender && <p className="text-red-400 text-sm">{errors.gender.message}</p>}
-            </div>
 
-            {/* Age */}
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Age (years)</label>
               <input
                 type="number"
-                placeholder="Enter your age"
-                {...register('age', { required: 'Age is required', min: { value: 1, message: 'Age must be positive' } })}
-                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                placeholder="Age"
+                {...register('age', { required: true, min: 1 })}
+                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-gray-200"
               />
-              {errors.age && <p className="text-red-400 text-sm">{errors.age.message}</p>}
-            </div>
 
-            {/* Height */}
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Height (cm)</label>
               <input
                 type="number"
-                placeholder="Enter your height in cm"
-                {...register('height', { required: 'Height is required', min: { value: 1, message: 'Height must be positive' } })}
-                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                placeholder="Height (cm)"
+                {...register('height', { required: true, min: 1 })}
+                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-gray-200"
               />
-              {errors.height && <p className="text-red-400 text-sm">{errors.height.message}</p>}
-            </div>
 
-            {/* Weight */}
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Weight (kg)</label>
               <input
                 type="number"
-                placeholder="Enter your weight in kg"
-                {...register('weight', { required: 'Weight is required', min: { value: 1, message: 'Weight must be positive' } })}
-                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                placeholder="Weight (kg)"
+                {...register('weight', { required: true, min: 1 })}
+                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-gray-200"
               />
-              {errors.weight && <p className="text-red-400 text-sm">{errors.weight.message}</p>}
-            </div>
 
-            <button
-              type="submit"
-              className="w-full py-3 rounded-xl font-semibold bg-emerald-400 text-zinc-900 hover:bg-emerald-300 transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-            >
-              Calculate BMI
-            </button>
-          </form>
-
-        
-
-         
-        </div>
-
-       
-        {result && (
-          <div className="max-w-lg w-full">
-            <div className="border border-zinc-700 rounded-2xl shadow-xl p-6">
-               {/* Result */}
-          {result && (
-            <div className="mt-6 text-center">
-              <p className="text-gray-400 text-sm">Your BMI</p>
-              <p className={`text-4xl md:text-5xl font-bold ${result.color}`}>
-                {result.bmi}
-              </p>
-              <p className={`mt-2 text-lg font-semibold ${result.color}`}>
-                {result.category}
-              </p>
-            </div>
-          )}
-             
-              <NutritionComparison
-                dailySummary={{ totalCalories: 0, totalProtein: 0, totalCarbs: 0, totalFat: 0 }}
-                userProfile={{
-                  weight: Number(localStorage.getItem('userProfile') ? JSON.parse(localStorage.getItem('userProfile')).weight : 0),
-                  height: Number(localStorage.getItem('userProfile') ? JSON.parse(localStorage.getItem('userProfile')).height : 0),
-                  age: Number(localStorage.getItem('userProfile') ? JSON.parse(localStorage.getItem('userProfile')).age : 0),
-                  gender: localStorage.getItem('userProfile') ? JSON.parse(localStorage.getItem('userProfile')).gender : '',
-                }}
-              />
-            </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 rounded-xl font-semibold bg-emerald-400 text-black"
+              >
+                {loading ? 'Saving...' : 'Calculate BMI'}
+              </button>
+            </form>
           </div>
         )}
+
+        {result && profile && (
+          <div className="max-w-lg w-full border border-zinc-700 rounded-2xl p-6">
+            <div className="text-center mb-6">
+              <p className="text-gray-400">Your BMI</p>
+              <p className={`text-5xl font-bold ${result.color}`}>
+                {result.bmi}
+              </p>
+              <p className={`text-lg font-semibold ${result.color}`}>
+                {result.category}
+              </p>
+
+              <button
+                onClick={resetBMI}
+                className="mt-4 text-sm text-green-400 underline"
+              >
+                Recalculate BMI
+              </button>
+            </div>
+
+            <NutritionComparison
+              dailySummary={dailySummary}
+              userProfile={profile}
+            />
+          </div>
+        )}
+
       </div>
     </div>
   );
 };
 
 export default BMICalculator;
-
-
-
