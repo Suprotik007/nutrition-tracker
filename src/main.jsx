@@ -7,7 +7,8 @@ import { RouterProvider } from "react-router";
 
 import AuthProvider from './Authentication/AuthProvider.jsx';
 import FoodProvider from './Elements/FoodProvider.jsx';
-import router from './router.jsx';
+import router from '../router.jsx';
+
 
 
  

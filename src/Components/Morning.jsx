@@ -32,7 +32,7 @@ const Morning = ({ isActive, incrementRefreshKey }) => {
         transition-all duration-300`}
     >
       {/* Header */}
-      <header className="flex  md:flex-row justify-between items-start md:items-center">
+      <header className="flex  md:flex-row justify-between items-center md:items-center">
         <div className="flex flex-col md:flex-row md:items-center gap-2">
           <h2 className="font-mono font-semibold text-xl md:text-2xl text-yellow-400">
             Morning
@@ -44,7 +44,7 @@ const Morning = ({ isActive, incrementRefreshKey }) => {
   
         {/* Active badge */}
        {isActive && (
-      <span className="bg-yellow-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
+      <span className="bg-yellow-400 opacity-70 text-zinc-900 text-xs font-semibold px-2 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
         Active
       </span>
     )}

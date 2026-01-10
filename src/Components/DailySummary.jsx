@@ -1,15 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { AuthContext } from '../Authentication/AuthProvider';
 
-const DailySummary = ({ refreshKey }) => {
+const DailySummary = ({ refreshKey, dailySummary, setDailySummary }) => {
   const { user } = useContext(AuthContext);
-
-  const [summary, setSummary] = useState({
-    totalCalories: 0,
-    totalProtein: 0,
-    totalCarbs: 0,
-    totalFat: 0,
-  });
 
   useEffect(() => {
     if (!user?.email) return;
@@ -19,7 +12,7 @@ const DailySummary = ({ refreshKey }) => {
     )
       .then(res => res.json())
       .then(data => {
-        setSummary({
+        setDailySummary({
           totalCalories: data.totalCalories || 0,
           totalProtein: data.totalProtein || 0,
           totalCarbs: data.totalCarbs || 0,
@@ -27,15 +20,15 @@ const DailySummary = ({ refreshKey }) => {
         });
       })
       .catch(err => console.error('Failed to fetch daily summary', err));
-  }, [user, refreshKey]); 
+  }, [user, refreshKey, setDailySummary]);
 
   const format = num => Number(num).toFixed(2);
 
   const nutrients = [
-    { label: 'Calories', value: format(summary.totalCalories), color: 'yellow' },
-    { label: 'Protein', value: format(summary.totalProtein) + 'g', color: 'green' },
-    { label: 'Carbs', value: format(summary.totalCarbs) + 'g', color: 'red' },
-    { label: 'Fats', value: format(summary.totalFat) + 'g', color: 'blue' },
+    { label: 'Calories', value: format(dailySummary.totalCalories), color: 'yellow' },
+    { label: 'Protein', value: format(dailySummary.totalProtein) + 'g', color: 'green' },
+    { label: 'Carbs', value: format(dailySummary.totalCarbs) + 'g', color: 'red' },
+    { label: 'Fats', value: format(dailySummary.totalFat) + 'g', color: 'blue' },
   ];
 
   const colorMap = {
