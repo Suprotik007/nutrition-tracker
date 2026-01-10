@@ -3,7 +3,6 @@ import Headline from '../Components/Headline';
 import DailySummary from '../Components/DailySummary';
 
 import MealSections from '../Components/MealSections';
-import NutritionComparison from '../Components/NutritionComparison';
 
 const Home = () => {
     const [refreshKey, setRefreshKey] = useState(0);
@@ -23,7 +22,6 @@ const Home = () => {
             <DailySummary refreshKey={refreshKey} dailySummary={dailySummary} setDailySummary={setDailySummary} />
             {/* <Outlet  />  */}
             <MealSections incrementRefreshKey={incrementRefreshKey}></MealSections>
-            <NutritionComparison dailySummary={dailySummary} />
         </div>
     );
 };

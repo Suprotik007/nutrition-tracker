@@ -1,16 +1,28 @@
 import React, { useMemo } from 'react';
 
-const NutritionComparison = ({ dailySummary }) => {
-  // Temporary hardcoded healthy intake (baseline adult)
-  const suggested = {
-    calories: 2200,
-    protein: 140,
-    carbs: 260,
-    fat: 60,
-  };
+import {
+  calculateBMI,
+  bmiCategory,
+  calculateSuggestedIntake,
+} from '../utilities/Nutritioncalculator';
 
+
+const NutritionComparison = ({ dailySummary, userProfile }) => {
+  const { weight, height, age, gender } = userProfile || {};
+
+  const bmi = userProfile ? calculateBMI(weight, height) : null;
+  const category = bmi ? bmiCategory(bmi) : null;
+
+  const suggested = userProfile ? calculateSuggestedIntake({
+    weight,
+    height,
+    age,
+    gender,
+  }) : null;
+
+ 
   const comparison = useMemo(() => {
-    if (!dailySummary) return null;
+    if (!dailySummary || !suggested) return null;
 
     return {
       calories: suggested.calories - dailySummary.totalCalories,
@@ -18,7 +30,7 @@ const NutritionComparison = ({ dailySummary }) => {
       carbs: suggested.carbs - dailySummary.totalCarbs,
       fat: suggested.fat - dailySummary.totalFat,
     };
-  }, [dailySummary]);
+  }, [dailySummary, suggested]);
 
   const renderResult = (label, value, unit) => {
     if (value > 0) {
@@ -42,8 +54,8 @@ const NutritionComparison = ({ dailySummary }) => {
 
   return (
     <div className="mt-10 p-6 rounded-2xl bg-zinc-900 border border-zinc-700 max-w-4xl mx-auto">
-      <h2 className="font-mono text-2xl md:text-3xl font-bold text-center mb-6 bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent">
-        Nutrition Comparison
+      <h2 className="font-mono text-sm md:text-3xl font-bold text-center mb-6 bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent">
+        Nutrition Comparison based on your BMI 
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -68,9 +80,7 @@ const NutritionComparison = ({ dailySummary }) => {
         </div>
       </div>
 
-      <p className="text-gray-500 text-xs mt-6 text-center">
-        Suggested intake is a baseline estimate. Will be personalized later using BMI & AI.
-      </p>
+     
     </div>
   );
 };

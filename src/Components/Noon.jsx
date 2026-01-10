@@ -34,7 +34,7 @@ const Noon = ({ isActive, incrementRefreshKey }) => {
      <header className="flex  md:flex-row justify-between items-start md:items-center">
   
   <div className="flex flex-col md:flex-row md:items-center gap-2">
-    <div className='flex flex-col md:flex-row md:items-center gap-2'>
+   
       <h2 className="font-mono font-semibold text-xl md:text-2xl text-orange-400">
         Noon
       </h2>
@@ -44,11 +44,11 @@ const Noon = ({ isActive, incrementRefreshKey }) => {
     </div>
 
     {isActive && (
-      <span className="bg-orange-400 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
+      <span className="bg-orange-400 opacity-70 text-zinc-900 text-xs font-semibold px-3 py-1 mx-3 md:mx-38 lg:mx-62 rounded-full animate-pulse">
         Active
       </span>
     )}
-  </div>
+  
 
   {/*  Add button */}
   <AddFoodButton
