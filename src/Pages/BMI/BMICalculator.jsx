@@ -1,17 +1,20 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Authentication/AuthProvider';
-import { FoodContext } from '../../Elements/FoodContext';
-import { calculateDailySummary } from '../../utilities/Nutritioncalculator';
 import NutritionComparison from '../../Components/NutritionComparison';
 
 const BMICalculator = () => {
   const { user } = useContext(AuthContext);
-  const { foodData } = useContext(FoodContext);
 
   const [result, setResult] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [dailySummary, setDailySummary] = useState({
+    totalCalories: 0,
+    totalProtein: 0,
+    totalCarbs: 0,
+    totalFat: 0,
+  });
 
   const {
     register,
@@ -21,10 +24,7 @@ const BMICalculator = () => {
   } = useForm();
 
   
-  const dailySummary = useMemo(
-    () => calculateDailySummary(foodData),
-    [foodData]
-  );
+
 
 
   useEffect(() => {
@@ -36,6 +36,24 @@ const BMICalculator = () => {
       setProfile(JSON.parse(savedProfile));
     }
   }, []);
+
+  useEffect(() => {
+    if (!user?.email) return;
+
+    fetch(
+      `${import.meta.env.VITE_API_URL}/addedFoods/daily-summary?email=${user.email}`
+    )
+      .then(res => res.json())
+      .then(data => {
+        setDailySummary({
+          totalCalories: data.totalCalories || 0,
+          totalProtein: data.totalProtein || 0,
+          totalCarbs: data.totalCarbs || 0,
+          totalFat: data.totalFat || 0,
+        });
+      })
+      .catch(err => console.error('Failed to fetch daily summary', err));
+  }, [user]);
 
 
   const onSubmit = async (data) => {
@@ -166,24 +184,30 @@ const BMICalculator = () => {
           </div>
         )}
 
-        {result && profile && (
+        {profile && (
           <div className="max-w-lg w-full border border-zinc-700 rounded-2xl p-6">
-            <div className="text-center mb-6">
-              <p className="text-gray-400">Your BMI</p>
-              <p className={`text-5xl font-bold ${result.color}`}>
-                {result.bmi}
-              </p>
-              <p className={`text-lg font-semibold ${result.color}`}>
-                {result.category}
-              </p>
+            {result ? (
+              <div className="text-center mb-6">
+                <p className="text-gray-400">Your BMI</p>
+                <p className={`text-5xl font-bold ${result.color}`}>
+                  {result.bmi}
+                </p>
+                <p className={`text-lg font-semibold ${result.color}`}>
+                  {result.category}
+                </p>
 
-              <button
-                onClick={resetBMI}
-                className="mt-4 text-sm text-green-400 underline"
-              >
-                Recalculate BMI
-              </button>
-            </div>
+                <button
+                  onClick={resetBMI}
+                  className="mt-4 text-sm text-green-400 underline"
+                >
+                  Recalculate BMI
+                </button>
+              </div>
+            ) : (
+              <div className="text-center mb-6">
+                <p className="text-gray-400">Calculate your BMI to see the comparison</p>
+              </div>
+            )}
 
             <NutritionComparison
               dailySummary={dailySummary}

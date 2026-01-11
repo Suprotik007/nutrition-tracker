@@ -86,3 +86,8 @@ const NutritionComparison = ({ dailySummary, userProfile }) => {
 };
 
 export default NutritionComparison;
+
+
+
+
+
